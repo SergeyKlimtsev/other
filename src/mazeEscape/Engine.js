@@ -82,10 +82,6 @@ function rotateFieldDown(field) {
 }
 
 function rotateField(direction) {
-    if (direction === 'up') {
-        return getCurrentFieldView();
-    }
-
     const field = getViewField();
     const {playerDirection} = gameState;
 
@@ -133,35 +129,111 @@ function checkWin() {
 
 function moveUp() {
     const {maze, playerDirection, playerPosition: {x, y}} = gameState;
-    if (maze[y + 1][x] !== '#') {
-        gameState.playerPosition.y++;
+    switch (playerDirection) {
+        case 'up':
+            if (maze[y + 1][x] !== '#') {
+                gameState.playerPosition.y++;
+            }
+            break;
+        case 'left':
+            if (maze[y][x - 1] !== '#') {
+                gameState.playerPosition.x--;
+            }
+            break;
+        case 'right':
+            if (maze[y][x + 1] !== '#') {
+                gameState.playerPosition.x++;
+            }
+            break;
+        case 'down':
+            if (maze[y - 1][x] !== '#') {
+                gameState.playerPosition.y--;
+            }
+            break;
     }
     if (checkWin()) return 'WIN';
-    return rotateField('up');
+    return getCurrentFieldView();
 }
 
 function moveRight() {
-    const {maze, playerPosition: {x, y}} = gameState;
-    if (maze[y][x + 1] !== '#') {
-        gameState.playerPosition.x++;
+    const {maze, playerDirection, playerPosition: {x, y}} = gameState;
+    switch (playerDirection) {
+        case 'up':
+            if (maze[y][x + 1] !== '#') {
+                gameState.playerPosition.x++;
+            }
+            break;
+        case 'left':
+            if (maze[y + 1][x] !== '#') {
+                gameState.playerPosition.y++;
+            }
+            break;
+        case 'right':
+            if (maze[y - 1][x] !== '#') {
+                gameState.playerPosition.y--;
+            }
+            break;
+        case 'down':
+            if (maze[y][x - 1] !== '#') {
+                gameState.playerPosition.x--;
+            }
+            break;
     }
     if (checkWin()) return 'WIN';
     return rotateField('right');
 }
 
 function moveLeft() {
-    const {maze, playerPosition: {x, y}} = gameState;
-    if (maze[y][x - 1] !== '#') {
-        gameState.playerPosition.x--;
+    const {maze, playerDirection, playerPosition: {x, y}} = gameState;
+    switch (playerDirection) {
+        case 'up':
+            if (maze[y][x + 1] !== '#') {
+                gameState.playerPosition.x++;
+            }
+            break;
+        case 'left':
+            if (maze[y - 1][x] !== '#') {
+                gameState.playerPosition.y--;
+            }
+            break;
+        case 'right':
+            if (maze[y + 1][x] !== '#') {
+                gameState.playerPosition.y++;
+            }
+            break;
+        case 'down':
+            if (maze[y][x + 1] !== '#') {
+                gameState.playerPosition.x++;
+            }
+            break;
     }
     if (checkWin()) return 'WIN';
     return rotateField('left');
 }
 
 function moveDown() {
-    const {maze, playerPosition: {x, y}} = gameState;
-    if (maze[y - 1][x] !== '#') {
-        gameState.playerPosition.y--;
+    const {maze, playerDirection, playerPosition: {x, y}} = gameState;
+    switch (playerDirection) {
+        case 'up':
+            if (maze[y - 1][x] !== '#') {
+                gameState.playerPosition.y--;
+            }
+            break;
+        case 'left':
+            if (maze[y][x + 1] !== '#') {
+                gameState.playerPosition.x++;
+            }
+            break;
+        case 'right':
+            if (maze[y][x - 1] !== '#') {
+                gameState.playerPosition.x--;
+            }
+            break;
+        case 'down':
+            if (maze[y + 1][x] !== '#') {
+                gameState.playerPosition.y++;
+            }
+            break;
     }
     if (checkWin()) return 'WIN';
     return rotateField('down');
